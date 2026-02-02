@@ -1,0 +1,74 @@
+---
+description: star-common 公共组件库结构
+alwaysApply: true
+---
+
+# star-common 项目结构
+
+## 模块结构
+
+```
+star-common/
+└── star-common-core/    # 核心公共组件
+```
+
+## 包结构
+
+```
+com.star.common
+├── exception/
+│   └── BusinessException    # 业务异常
+├── page/
+│   ├── PageRequest          # 分页请求参数
+│   └── PageResponse<T>      # 分页响应包装
+└── result/
+    ├── Result<T>            # 统一响应
+    └── ResultCode           # 响应码枚举
+```
+
+## 公共组件
+
+### Result<T>
+```java
+// 成功
+Result.success()
+Result.success(data)
+
+// 失败
+Result.fail("错误信息")
+Result.fail(ResultCode.NOT_FOUND)
+Result.fail(code, message)
+```
+
+### ResultCode
+| 分类 | 码段 | 示例 |
+|------|------|------|
+| 通用 | 200/400/500 | SUCCESS, PARAM_ERROR, SYSTEM_ERROR |
+| 认证 | 1000-1099 | UNAUTHORIZED, TOKEN_INVALID, TOKEN_EXPIRED |
+| 业务 | 4000-4999 | BUSINESS_ERROR, TASK_NOT_RUNNING 等 |
+
+### BusinessException
+```java
+throw new BusinessException("错误信息");
+throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "资源不存在");
+```
+
+### PageRequest / PageResponse
+```java
+// 请求
+PageRequest request = new PageRequest();
+request.setPage(1);
+request.setPageSize(10);
+int offset = request.getOffset();
+
+// 响应
+PageResponse.of(dataList, total, request);
+```
+
+## 扩展规范
+
+新增公共组件时：
+1. 考虑多服务复用场景
+2. 保持无外部依赖（仅 Lombok）
+3. 提供完整 JavaDoc
+4. 通知依赖服务更新版本
