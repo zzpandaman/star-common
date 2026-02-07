@@ -37,11 +37,13 @@ public class PageResponse<T> {
         PageResponse<T> response = new PageResponse<>();
         response.setData(data);
         response.setTotal(total);
-        response.setPage(request.getPage());
-        response.setPageSize(request.getPageSize());
+        int page = request != null ? request.getPage() : 1;
+        int pageSize = request != null ? request.getPageSize() : 10;
+        response.setPage(page);
+        response.setPageSize(pageSize);
         return response;
     }
-    
+
     /**
      * 创建分页响应
      */

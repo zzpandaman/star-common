@@ -55,7 +55,7 @@ throw new BusinessException(ResultCode.NOT_FOUND.getCode(), "资源不存在");
 
 ### PageRequest / PageResponse
 ```java
-// 请求
+// 请求（getPage/getPageSize 判空返回默认 1/10）
 PageRequest request = new PageRequest();
 request.setPage(1);
 request.setPageSize(10);
@@ -63,6 +63,7 @@ int offset = request.getOffset();
 
 // 响应
 PageResponse.of(dataList, total, request);
+PageResponse.of(dataList, total, page, pageSize);
 ```
 
 ## 扩展规范
